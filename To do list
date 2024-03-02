@@ -1,0 +1,90 @@
+import os
+
+
+# Function to load tasks from a file
+def load_tasks(filename):
+    tasks = []
+    if os.path.exists(filename):
+        with open(filename, 'r') as file:
+            for line in file:
+                tasks.append(line.strip())
+    return tasks
+
+
+# Function to save tasks to a file
+def save_tasks(filename, tasks):
+    with open(filename, 'w') as file:
+        for task in tasks:
+            file.write(task + '\n')
+
+
+# Function to display tasks
+def display_tasks(tasks):
+    if not tasks:
+        print("You have no tasks.")
+    else:
+        print("Your tasks:")
+        for idx, task in enumerate(tasks, start=1):
+            print(f"{idx}. {task}")
+
+
+# Function to add a task
+def add_task(tasks, task):
+    tasks.append(task)
+    print("Task added.")
+
+
+# Function to mark a task as complete
+def complete_task(tasks, task_index):
+    if 1 <= task_index <= len(tasks):
+        tasks.pop(task_index - 1)
+        print("Task marked as complete.")
+    else:
+        print("Invalid task index.")
+
+
+# Function to delete a task
+def delete_task(tasks, task_index):
+    if 1 <= task_index <= len(tasks):
+        tasks.pop(task_index - 1)
+        print("Task deleted.")
+    else:
+        print("Invalid task index.")
+
+
+def main():
+    filename = "tasks.txt"
+    tasks = load_tasks(filename)
+
+    while True:
+        print("\n1. View tasks")
+        print("2. Add task")
+        print("3. Mark task as complete")
+        print("4. Delete task")
+        print("5. Quit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            display_tasks(tasks)
+        elif choice == '2':
+            task = input("Enter the task: ")
+            add_task(tasks, task)
+        elif choice == '3':
+            display_tasks(tasks)
+            task_index = int(input("Enter the index of the task to mark as complete: "))
+            complete_task(tasks, task_index)
+        elif choice == '4':
+            display_tasks(tasks)
+            task_index = int(input("Enter the index of the task to delete: "))
+            delete_task(tasks, task_index)
+        elif choice == '5':
+            save_tasks(filename, tasks)
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+
+if __name__ == "__main__":
+    main()
